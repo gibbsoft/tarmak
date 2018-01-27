@@ -13,8 +13,9 @@
 # @param bin_dir path to the binary directory for helper scripts
 # @param systemd_dir path to the directory where systemd units should be placed
 class aws_ebs(
-  String $systemd_dir = '/etc/systemd/system',
-  String $bin_dir = '/opt/bin',
+  String $systemd_dir     = '/etc/systemd/system',
+  String $bin_dir         = '/opt/bin',
+  Array[String] $packages = ['curl', 'gawk', 'util-linux', 'awscli', 'xfsprogs'],
 ){
 
   $path = defined('$::path') ? {
@@ -27,7 +28,7 @@ class aws_ebs(
     mode =>  '0755',
   })
 
-  ensure_resource('package', ['curl', 'gawk', 'util-linux', 'awscli', 'xfsprogs'],{
+  ensure_resource('package', $packages,{
     ensure => present
   })
 

@@ -33,6 +33,12 @@ actually attach & mount a volume you have to use the defined type
 * Type: `String`
 * Default: `'/etc/systemd/system'`
 
+##### `packages`
+
+* list of packages to install
+* Type: `Array` of `String`
+* Default: `['curl', 'gawk', 'util-linux', 'awscli', 'xfsprogs']`
+
 #### Examples
 
 ##### Declaring the base class
@@ -45,6 +51,21 @@ include ::aws_ebs
 ```
 class{'aws_ebs':
   bin_dir => '/usr/local/sbin',
+}
+```
+
+##### Override package installation
+
+On some platforms some packages may be named slightly differently, or perhaps
+installed from another source.  For example, the `awscli` package is not
+readily available for RHEL7 and is often installed via other means.
+
+The `packages` parameter can be used to override the list, in this example to
+skip installation of the `awscli` package.
+
+```
+class{'aws_ebs':
+  packages => ['curl', 'gawk', 'util-linux', 'xfsprogs'],
 }
 ```
 ## DefinedTypes
